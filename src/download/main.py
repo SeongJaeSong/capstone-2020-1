@@ -33,10 +33,10 @@ elif "youtu" in url:
     # https://youtu.be/videoID
     platform = "Youtube"
     if 'youtube' in url:
-        url = re.search(r"https://www.youtube.com/watch\?v=[a-zA-Z0-_]+", url).group()
+        url = re.search(r"https://www.youtube.com/watch\?v=[a-zA-Z0-9_-]+", url).group()
         videoID = url.split('=')
     else:
-        url = re.search(r"https://youtu.be/[a-zA-Z0-_]+", url).group()
+        url = re.search(r"https://youtu.be/[a-zA-Z0-9_-]+", url).group()
         videoID = url.split('/')
     videoID = videoID[-1]
 
