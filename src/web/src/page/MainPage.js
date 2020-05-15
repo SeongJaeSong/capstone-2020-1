@@ -33,7 +33,7 @@ const MainPage = () => {
   const test = () => {
     try {
       axios
-        .get("http://13.209.112.92:8000/api/login", {
+        .get("http://localhost:8000/api/login", {
           headers: { "Content-Type": "multipart/form-data" },
           params: {
             email: JSON.parse(temp).email,
@@ -43,10 +43,18 @@ const MainPage = () => {
         .then((response) => {
           const data = response.data;
           console.log(data);
+          localStorage.setItem("loginStorage", JSON.stringify(data));
           setEmail(JSON.parse(temp).email);
           toggleLogin(true);
         })
-        .catch();
+        .catch(function (error) {
+          if (error.response.status === 401) {
+            localStorage.removeItem("loginStorage");
+            toggleLogin(false);
+            toggleInput(false);
+            alert("please, you need sign in again.");
+          }
+        });
     } catch (e) {
       console.log(e);
     }
@@ -78,7 +86,11 @@ const MainPage = () => {
         <Login setEmail={setEmail} toggleLogin={toggleLogin} />
       )}
 
-      {input ? <Result url={url}></Result> : <></>}
+      {input & login ? (
+        <Result url={url} platform={platform} videoid={videoid}></Result>
+      ) : (
+        <></>
+      )}
       <Box mt={8}>
         <Copyright />
       </Box>
