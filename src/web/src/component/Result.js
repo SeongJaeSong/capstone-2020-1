@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Grid, Button } from "@material-ui/core";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { Grid, Button, ListItemSecondaryAction } from "@material-ui/core";
 import ViewerReact from "./ViewerReact";
 import Highlight from "./Highlight";
 import ViewerRank from "./ViewerRank";
+import Seven from "./Seven";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
@@ -10,6 +12,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import ReactPlayer from "react-player";
 
 const useStyles = makeStyles({
   root: {
@@ -75,6 +78,13 @@ const Result = (props) => {
   const [posAndNeg, setPosAndNeg] = useState(false);
   const [keword, setKeyword] = useState(false);
   const [high, setHigh] = useState(false);
+  const [audioNorm, setAudioNrom] = useState(false);
+  const [seven, setSeven] = useState(false);
+  const [image, setImage] = useState();
+  const [check, setCheck] = useState(false);
+  const [time, setTime] = useState(0);
+
+  const player_ref = useRef();
 
   useEffect(() => {
     setPosAndNeg(false);
@@ -86,21 +96,63 @@ const Result = (props) => {
     }
   }, [props]);
 
+  const audio = () => {
+    try {
+      axios
+        .get("http://13.209.112.92:8000/api/SNDnormalize", {
+          headers: { "Content-Type": "multipart/form-data" },
+          params: {
+            url: props.url,
+          },
+        })
+        .then((response) => {
+          const data = response.data.image_url;
+          console.log(data);
+          setImage(data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const dashboad = (e) => {
     // console.log(e.target.value);
     console.log(props);
     if (e.target.value === "posAndNeg") {
       setPosAndNeg(true);
       setKeyword(false);
+      setAudioNrom(false);
+      setSeven(false);
     } else if (e.target.value === "keword") {
       setPosAndNeg(false);
       setKeyword(true);
+      setAudioNrom(false);
+      setSeven(false);
+    } else if (e.target.value === "audioNorm") {
+      setPosAndNeg(false);
+      setKeyword(false);
+      setAudioNrom(true);
+      setSeven(false);
+      audio();
+    } else if (e.target.value === "seven") {
+      setPosAndNeg(false);
+      setKeyword(false);
+      setAudioNrom(false);
+      setSeven(true);
     } else {
       setPosAndNeg(false);
       setKeyword(false);
+      setAudioNrom(false);
+      setSeven(false);
     }
   };
-
+  const moveControl = () => {
+    player_ref.current.seekTo(time);
+    setCheck(false);
+  };
   return (
     <div>
       <h3>Analysis results of {props.url}</h3>
@@ -114,12 +166,22 @@ const Result = (props) => {
           <FormControlLabel
             value="posAndNeg"
             control={<StyledRadio />}
-            label="positive & negative"
+            label="Positive & Negative"
+          />
+          <FormControlLabel
+            value="seven"
+            control={<StyledRadio />}
+            label="Seven Sentiment"
           />
           <FormControlLabel
             value="keword"
             control={<StyledRadio />}
-            label="keword10"
+            label="Keword10"
+          />
+          <FormControlLabel
+            value="audioNorm"
+            control={<StyledRadio />}
+            label="SoundNormalization"
           />
           <FormControlLabel
             value="other"
@@ -129,16 +191,22 @@ const Result = (props) => {
         </RadioGroup>
       </FormControl>
 
-      <Grid container>
+      <Grid
+        container
+        alignItems="center"
+        direction="row"
+        justify="space-between"
+      >
+        <Grid xs={3}></Grid>
         {posAndNeg ? (
-          <Grid xs={12}>
+          <Grid xs={6}>
             <ViewerReact url={props.url}></ViewerReact>
           </Grid>
         ) : (
           <></>
         )}
         {keword ? (
-          <Grid xs={12}>
+          <Grid xs={6}>
             <ViewerRank
               platform={props.platform}
               videoid={props.videoid}
@@ -147,25 +215,71 @@ const Result = (props) => {
         ) : (
           <></>
         )}
-      </Grid>
-
-      <Grid container>
-        {high ? (
-          <Highlight
-            platform={props.platform}
-            videoid={props.videoid}
-            url={props.url}
-          ></Highlight>
+        {audioNorm ? (
+          <Grid xs={6}>
+            <img src={image} />
+          </Grid>
         ) : (
           <></>
         )}
+        {seven ? (
+          <Grid xs={6}>
+            <Seven></Seven>
+          </Grid>
+        ) : (
+          <></>
+        )}
+        <Grid xs={3}></Grid>
       </Grid>
-      <Grid>
-        <h3>Audio standardization</h3>
-        <Button variant="contained" color="secondary">
-          Download
-        </Button>
+
+      <br></br>
+
+      <Grid
+        container
+        alignItems="center"
+        direction="row"
+        justify="space-between"
+      >
+        <Grid xs={1}></Grid>
+        {high ? (
+          <Grid xs={10}>
+            <Highlight
+              platform={props.platform}
+              videoid={props.videoid}
+              url={props.url}
+              setTime={setTime}
+              setCheck={setCheck}
+            ></Highlight>
+          </Grid>
+        ) : (
+          <></>
+        )}
+        <Grid xs={1}></Grid>
       </Grid>
+
+      <br></br>
+
+      <h4 className="mt-5">
+        Click on the "Highligh Point" table to go to the click position
+      </h4>
+      <h3 className="mt-5">Video</h3>
+
+      <Grid
+        container
+        alignItems="center"
+        direction="row"
+        justify="space-between"
+      >
+        <Grid xs={1}></Grid>
+        <ReactPlayer
+          ref={player_ref}
+          playing
+          url={props.url}
+          controls
+        ></ReactPlayer>
+        <Grid xs={1}></Grid>
+      </Grid>
+      {check ? moveControl() : <></>}
     </div>
   );
 };
