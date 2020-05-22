@@ -3,7 +3,17 @@ import React, { useState } from "react";
 import YobaLogo from "../yoba_logo.png";
 
 const NaviBar = (props) => {
-    console.log(props.email)
+  // console.log(props.email)
+  const logout = () => {
+    if (props.login === true) {
+      localStorage.removeItem("loginStorage");
+      props.toggleLogin(false);
+      props.toggleInput(false);
+      alert("sign out");
+    } else {
+      alert("Please, sign in from the bottom page.")
+    }
+  };
   return (
     <AppBar position="sticky" color="default">
       <Grid
@@ -37,21 +47,11 @@ const NaviBar = (props) => {
                 textTransform: "none",
                 color: "black",
                 marginLeft: 20,
-                marginRight: 20,
-              }}
-            >
-              About
-            </Typography>
-            <Typography
-              variant="h6"
-              style={{
-                textTransform: "none",
-                color: "black",
-                marginLeft: 20,
                 marginRight: 30,
               }}
+              onClick={logout}
             >
-              {props.login ? props.email + "님 환영합니다." : "Log In"}
+              {props.login ? props.email + "님 환영합니다." : "Sign In"}
             </Typography>
           </Grid>
         </Grid>

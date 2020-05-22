@@ -11,7 +11,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="#">
         Yoba
       </Link>{" "}
       {new Date().getFullYear()}
@@ -63,17 +63,16 @@ const MainPage = () => {
   return (
     <div onLoad={test}>
       <Grid>
-        <Navibar email={email} login={login} />
+        <Navibar
+          email={email}
+          login={login}
+          toggleInput={toggleInput}
+          toggleLogin={toggleLogin}
+        />
       </Grid>
       <Grid>
         <Description />
       </Grid>
-      {/* <Grid>
-        <Login setEmail={setEmail} togleLogin={togleLogin}/>
-      </Grid>
-      <Grid>
-        <InputUrl></InputUrl>
-      </Grid> */}
       {login ? (
         <InputUrl
           toggleInput={toggleInput}

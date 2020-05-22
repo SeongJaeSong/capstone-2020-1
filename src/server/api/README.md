@@ -104,8 +104,7 @@ ping
 응답
 ```
 {
-    "average":~.~~~
-    platform_videoID.png (audio/normalizeAudio 폴더에 생성 및 db에 저장)
+    "image_url": "abs_path/image.png"
 }
 200 ok
 400 요청 형식이 맞지 않음
@@ -201,6 +200,7 @@ ping
 ```
 
 ### Predict
+[GET] /api/predict  
 채팅 긍정부정 분류
 
 요청
@@ -222,6 +222,40 @@ ping
       0, 
       0, 
       1
+    ]
+  }
+}
+200 OK
+400 INVALID URL
+```
+[GET] /api/predict7
+요청
+```
+{
+    "url": "http://www.sample.sample"
+}
+```
+응답
+```
+{
+  "predict": {
+    "joy": [
+      1, 
+      1, 
+      0
+    ], 
+    "love": [
+      0, 
+      0, 
+      1
+    ],
+    .
+    .
+    .
+    "neutral": [
+       1,
+       2,
+       3 
     ]
   }
 }
