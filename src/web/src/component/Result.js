@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Grid, Button, ListItemSecondaryAction } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import ViewerReact from "./ViewerReact";
 import Highlight from "./Highlight";
 import ViewerRank from "./ViewerRank";
@@ -13,6 +13,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import ReactPlayer from "react-player";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles({
   root: {
@@ -83,6 +84,7 @@ const Result = (props) => {
   const [image, setImage] = useState();
   const [check, setCheck] = useState(false);
   const [time, setTime] = useState(0);
+  const [load, setLoad] =useState(false);
 
   const player_ref = useRef();
 
@@ -107,11 +109,12 @@ const Result = (props) => {
         })
         .then((response) => {
           const data = response.data.image_url;
-          console.log(data);
+          // console.log(data);
           setImage(data);
+          setLoad(true);
         })
         .catch(function (error) {
-          console.log(error);
+          // console.log(error);
         });
     } catch (e) {
       console.log(e);
@@ -120,7 +123,7 @@ const Result = (props) => {
 
   const dashboad = (e) => {
     // console.log(e.target.value);
-    console.log(props);
+    // console.log(props);
     if (e.target.value === "posAndNeg") {
       setPosAndNeg(true);
       setKeyword(false);
@@ -155,6 +158,65 @@ const Result = (props) => {
   };
   return (
     <div>
+      {props.platform !== "AfreecaTV" ? (
+        <h4 className="mt-5">
+          Click on the "Highligh Point" table to go to the click position
+        </h4>
+      ) : (
+        <></>
+      )}
+      <h3 className="mt-5">Video</h3>
+
+      <Grid
+        container
+        alignItems="center"
+        direction="row"
+        justify="space-between"
+      >
+        <Grid xs={1}></Grid>
+        {props.platform !== "AfreecaTV" ? (
+          <ReactPlayer
+            ref={player_ref}
+            playing
+            url={props.url}
+            controls
+          ></ReactPlayer>
+        ) : (
+          <iframe
+            src={props.url}
+            width="640"
+            height="360"
+            currentPosition="100"
+          ></iframe>
+        )}
+        <Grid xs={1}></Grid>
+        {check ? moveControl() : <></>}
+      </Grid>
+
+      <br></br>
+      <Grid
+        container
+        alignItems="center"
+        direction="row"
+        justify="space-between"
+      >
+        <Grid xs={3}></Grid>
+        {high ? (
+          <Grid xs={6}>
+            <Highlight
+              platform={props.platform}
+              videoid={props.videoid}
+              url={props.url}
+              setTime={setTime}
+              setCheck={setCheck}
+            ></Highlight>
+          </Grid>
+        ) : (
+          <></>
+        )}
+        <Grid xs={3}></Grid>
+      </Grid>
+      <br></br>
       <h3>Analysis results of {props.url}</h3>
       <FormControl component="fieldset">
         <FormLabel component="legend">Options</FormLabel>
@@ -181,13 +243,13 @@ const Result = (props) => {
           <FormControlLabel
             value="audioNorm"
             control={<StyledRadio />}
-            label="SoundNormalization"
+            label="Volume"
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             value="other"
             control={<StyledRadio />}
             label="Other"
-          />
+          /> */}
         </RadioGroup>
       </FormControl>
 
@@ -217,14 +279,14 @@ const Result = (props) => {
         )}
         {audioNorm ? (
           <Grid xs={6}>
-            <img src={image} />
+            {load ? (<img src={image} />) : (<CircularProgress color="secondary" />)}
           </Grid>
         ) : (
           <></>
         )}
         {seven ? (
           <Grid xs={6}>
-            <Seven></Seven>
+            <Seven url={props.url}></Seven>
           </Grid>
         ) : (
           <></>
@@ -232,54 +294,6 @@ const Result = (props) => {
         <Grid xs={3}></Grid>
       </Grid>
 
-      <br></br>
-
-      <Grid
-        container
-        alignItems="center"
-        direction="row"
-        justify="space-between"
-      >
-        <Grid xs={1}></Grid>
-        {high ? (
-          <Grid xs={10}>
-            <Highlight
-              platform={props.platform}
-              videoid={props.videoid}
-              url={props.url}
-              setTime={setTime}
-              setCheck={setCheck}
-            ></Highlight>
-          </Grid>
-        ) : (
-          <></>
-        )}
-        <Grid xs={1}></Grid>
-      </Grid>
-
-      <br></br>
-
-      <h4 className="mt-5">
-        Click on the "Highligh Point" table to go to the click position
-      </h4>
-      <h3 className="mt-5">Video</h3>
-
-      <Grid
-        container
-        alignItems="center"
-        direction="row"
-        justify="space-between"
-      >
-        <Grid xs={1}></Grid>
-        <ReactPlayer
-          ref={player_ref}
-          playing
-          url={props.url}
-          controls
-        ></ReactPlayer>
-        <Grid xs={1}></Grid>
-      </Grid>
-      {check ? moveControl() : <></>}
     </div>
   );
 };

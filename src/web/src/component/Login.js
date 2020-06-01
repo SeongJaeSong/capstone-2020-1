@@ -36,12 +36,12 @@ const Login = (props) => {
 
     try {
       axios
-        .post("http://localhost:8000/api/login", frd, {
+        .post("http://13.209.112.92:8000/api/login", frd, {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
         .then((response) => {
           const data = response.data;
-          console.log(data);
+          // console.log(data);
 
           localStorage.setItem("loginStorage", JSON.stringify(data));
           props.setEmail(email);

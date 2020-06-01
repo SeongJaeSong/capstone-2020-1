@@ -11,7 +11,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="#">
         Yoba
       </Link>{" "}
       {new Date().getFullYear()}
@@ -33,7 +33,7 @@ const MainPage = () => {
   const test = () => {
     try {
       axios
-        .get("http://localhost:8000/api/login", {
+        .get("http://13.209.112.92:8000/api/login", {
           headers: { "Content-Type": "multipart/form-data" },
           params: {
             email: JSON.parse(temp).email,
@@ -42,7 +42,7 @@ const MainPage = () => {
         })
         .then((response) => {
           const data = response.data;
-          console.log(data);
+          // console.log(data);
           localStorage.setItem("loginStorage", JSON.stringify(data));
           setEmail(JSON.parse(temp).email);
           toggleLogin(true);
@@ -60,18 +60,16 @@ const MainPage = () => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("loginStorage");
-    toggleLogin(false);
-    toggleInput(false);
-    alert("log out");
-  };
-
   return (
     <div onLoad={test}>
-      <Grid>
-        <Navibar email={email} login={login} />
-      </Grid>
+
+        <Navibar
+          email={email}
+          login={login}
+          toggleInput={toggleInput}
+          toggleLogin={toggleLogin}
+        />
+ 
       <Grid>
         <Description />
       </Grid>
@@ -82,6 +80,7 @@ const MainPage = () => {
           toggleLogin={toggleLogin}
           setPlatform={setPlatform}
           setVideoid={setVideoid}
+          input = {input}
         ></InputUrl>
       ) : (
         <Login setEmail={setEmail} toggleLogin={toggleLogin} />

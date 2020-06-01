@@ -8,6 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles({
   table: {
@@ -30,7 +31,7 @@ function humanReadable(seconds) {
 
 function makeTime(str) {
   var tmpTime = str.split(":");
-  console.log(tmpTime);
+  // console.log(tmpTime);
   var temp =
     parseInt(tmpTime[0]) * 3600 +
     parseInt(tmpTime[1]) * 60 +
@@ -45,12 +46,13 @@ function createData(number, point, kind) {
 const Highlight = (props) => {
   const classes = useStyles();
   const [rows, setRows] = useState([]);
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     try {
       let temp = [];
       axios
-        .get("http://localhost:8000/api/SNDhighlight", {
+        .get("http://13.209.112.92:8000/api/SNDhighlight", {
           headers: { "Content-Type": "multipart/form-data" },
           params: {
             url: props.url,
@@ -58,32 +60,32 @@ const Highlight = (props) => {
         })
         .then((response) => {
           const data = response.data.highlight;
-          console.log(data);
+          // console.log(data);
           for (var i in data) {
-            temp = temp.concat([[humanReadable(data[i][0] * 60), "sound"]]);
+            temp = temp.concat([[humanReadable(data[i][0]), "sound"]]);
           }
           axios
-            .get("http://localhost:8000/api/chatlog_highlight", {
+            .get("http://13.209.112.92:8000/api/chatlog_highlight", {
               headers: { "Content-Type": "multipart/form-data" },
               params: {
-                platform: props.platform,
-                videoid: props.videoid,
+                url: props.url,
               },
             })
             .then((response) => {
               const data = response.data.highlight;
-              console.log(data);
+              // console.log(data);
               for (var i in data) {
                 temp = temp.concat([[humanReadable(data[i][0]), "chat"]]);
               }
               temp.sort();
               let temprows = [];
-              for (var i = 0; i < 6; i++) {
+              for (i = 0; i < 6; i++) {
                 temprows = temprows.concat(
                   createData("Highlight" + (i + 1), temp[i][0], temp[i][1])
                 );
               }
               setRows(temprows);
+              setLoad(true);
             })
             .catch(function (error) {
               setRows([]);
@@ -96,39 +98,46 @@ const Highlight = (props) => {
   }, [props]);
 
   const onClick = (e) => {
-    console.log(e.point);
-    props.setTime(makeTime(e.point));
-    props.setCheck(true);
+    // console.log(e.point);
+    if (props.platform !== "AfreecaTV") {
+      props.setTime(makeTime(e.point));
+      props.setCheck(true);
+    }
   };
 
   return (
     <TableContainer component={Paper}>
       <h3 className="mt-5">Highlight Point</h3>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Highlight</TableCell>
-            <TableCell align="right">Point</TableCell>
-            <TableCell align="right">Sound or Chat</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.number}
-              onClick={() => {
-                onClick(row);
-              }}
-            >
-              <TableCell component="th" scope="row">
-                {row.number}
-              </TableCell>
-              <TableCell align="right">{row.point}</TableCell>
-              <TableCell align="right">{row.kind}</TableCell>
+      {load ? (
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Highlight</TableCell>
+              <TableCell align="right">Point</TableCell>
+              <TableCell align="right">Sound or Chat</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.number}
+                onClick={() => {
+                  onClick(row);
+                }}
+                hover
+              >
+                <TableCell component="th" scope="row">
+                  {row.number}
+                </TableCell>
+                <TableCell align="right">{row.point}</TableCell>
+                <TableCell align="right">{row.kind}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <CircularProgress color="secondary" />
+      )}
     </TableContainer>
   );
 };

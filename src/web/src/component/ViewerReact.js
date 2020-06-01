@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const ViewerReact = (props) => {
   let state = {
@@ -107,7 +108,7 @@ const ViewerReact = (props) => {
   useEffect(() => {
     try {
       axios
-        .get("http://localhost:8000/api/predict", {
+        .get("http://13.209.112.92:8000/api/predict", {
           headers: { "Content-Type": "multipart/form-data" },
           params: {
             url: props.url,
@@ -115,7 +116,7 @@ const ViewerReact = (props) => {
         })
         .then((response) => {
           const data = response.data;
-          console.log(data.predict.pos);
+          // console.log(data.predict.pos);
           for (var i = 0; i < 100; i++) {
             state.dataLine.labels = state.dataLine.labels.concat(i);
             state.dataLine.datasets[0].data = state.dataLine.datasets[0].data.concat(
@@ -125,7 +126,7 @@ const ViewerReact = (props) => {
               data.predict.neg[i]
             );
           }
-          for (var i = 99; i > 0; i--) {
+          for (i = 99; i > 0; i--) {
             if (
               state.dataLine.datasets[0].data[i] === 0 &&
               state.dataLine.datasets[1].data[i] === 0
@@ -137,7 +138,7 @@ const ViewerReact = (props) => {
               break;
             }
           }
-          console.log(state.dataLine);
+          // console.log(state.dataLine);
           setTest(state.dataLine);
           setLoad(true);
         })
@@ -148,8 +149,8 @@ const ViewerReact = (props) => {
   }, [props]);
   return (
     <MDBContainer>
-      <h3 className="mt-5">Viewer chatting react</h3>
-      {load ? <Line data={test} options={{ responsive: true }} /> : <></>}
+      <h3 className="mt-5">Positive & Negative</h3>
+      {load ? <Line data={test} options={{ responsive: true }} /> : <CircularProgress color="secondary" />}
     </MDBContainer>
   );
 };
