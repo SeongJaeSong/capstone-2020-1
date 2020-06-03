@@ -136,12 +136,18 @@ def get_predict(data, db):
         inc = math.floor(endSecond / 100.0)
     else:
         inc = 1.0
+    print("1")
     p1 = multiprocessing.Process(target=posneg, args=(comment, second, inc, url, returnDict))
     p2 = multiprocessing.Process(target=sentiment7, args=(comment, second, inc, url, returnDict))
+    print("2")
     p1.start()
+    print("3")
     p2.start()
+    print("4")
     p1.join()
+    print("5")
     p2.join()
+    print("6")
 
     returnDict['bin'] = inc
     rst = json.dumps(returnDict.copy())
@@ -151,4 +157,5 @@ def get_predict(data, db):
     )
     db.add(new_predict)
     db.commit()
+    print("7")
     return jsonify(rst)
