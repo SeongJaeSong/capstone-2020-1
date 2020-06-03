@@ -6,6 +6,7 @@ import Description from "../component/Description";
 import InputUrl from "../component/InputUrl";
 import Login from "../component/Login";
 import Result from "../component/Result";
+import Usage from "../component/Usage";
 
 function Copyright() {
   return (
@@ -64,15 +65,16 @@ const MainPage = () => {
 
   return (
     <div onLoad={test}>
+      <Navibar
+        email={email}
+        name={name}
+        login={login}
+        toggleInput={toggleInput}
+        toggleLogin={toggleLogin}
+        setEmail={setEmail}
+        setName={setName}
+      />
 
-        <Navibar
-          email={email}
-          name={name}
-          login={login}
-          toggleInput={toggleInput}
-          toggleLogin={toggleLogin}
-        />
- 
       <Grid>
         <Description />
       </Grid>
@@ -83,10 +85,10 @@ const MainPage = () => {
           toggleLogin={toggleLogin}
           setPlatform={setPlatform}
           setVideoid={setVideoid}
-          input = {input}
+          input={input}
         ></InputUrl>
       ) : (
-        <Login setEmail={setEmail} toggleLogin={toggleLogin} />
+        <></>
       )}
 
       {input & login ? (
@@ -94,6 +96,10 @@ const MainPage = () => {
       ) : (
         <></>
       )}
+      <Grid>
+        <Usage />
+      </Grid>
+
       <Box mt={8}>
         <Copyright />
       </Box>
