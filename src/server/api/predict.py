@@ -20,12 +20,14 @@ app = Blueprint('predict', __name__, url_prefix='/api')
 
 
 def posneg(comment, second, inc, url, returnDict):
+    print('p1-start')
     predict = numpy.transpose(
         [[s[1:-1] for s in second], predict_pos_neg(comment)])
     predict_per_unitsecond = {'pos': [], 'neg': []}
     poscnt = 0
     negcnt = 0
     x = inc
+    print('p1-postprocessing')
     for p in predict:
         if int(p[0]) > x:
             x += inc
@@ -37,12 +39,16 @@ def posneg(comment, second, inc, url, returnDict):
             poscnt += 1
         elif int(p[1]) == 0:
             negcnt += 1
+    print('p1-end')
     returnDict['posneg'] = predict_per_unitsecond
+    print('p1-quit')
 
 
 def sentiment7(comment, second, inc, url, returnDict):
+    print('p1-start')
     predict = numpy.transpose(
         [[s[1:-1] for s in second], predict_7sentiment(comment)])
+    print('p1-postprocessing')
     predict_per_unitsecond = {
         'neutral': [],
         'joy': [],
@@ -92,7 +98,9 @@ def sentiment7(comment, second, inc, url, returnDict):
         elif p[1] == 'anger':
             anger += 1
 
+    print('p1-end')
     returnDict['sentiment7'] = predict_per_unitsecond
+    print('p1-quit')
 
 
 @app.route('/predict', methods=['GET'])
