@@ -7,27 +7,30 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import SignUp from "./SignUp";
+import "./total.css";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   paper: {
+//     marginTop: theme.spacing(8),
+//     display: "flex",
+//     float: "right",
+//     justifyContent: 'right',
+//     flexDirection: "column",
+//     alignItems: "center",
+//   },
+//   form: {
+//     width: "100%", // Fix IE 11 issue.
+//     marginTop: theme.spacing(1),
+//   },
+//   submit: {
+//     margin: theme.spacing(3, 0, 2),
+//   },
+// }));
 
 const Login = (props) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const classes = useStyles();
+  //const classes = useStyles();
   
   const onClick = () => {
     let frd = new FormData();
@@ -65,14 +68,15 @@ const Login = (props) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+    //<div component="main" className="loginContainer" maxWidth="xs">
+    <div className="loginContainer" maxWidth="xs">
+      //<CssBaseline />
+      <div className='paper'>
+        <Typography component="h1" className= "innercontainer" variant="h5">
           If you want to use YOBA service <br />
           Please, Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className='Form' noValidate>
           <TextField
             onChange={(e) => {
               setEmail(e.target.value);
@@ -106,7 +110,7 @@ const Login = (props) => {
             fullWidth
             variant="contained"
             color="secondary"
-            className={classes.submit}
+            className='submit'
             onClick={onClick}
           >
             Sign In
@@ -115,7 +119,7 @@ const Login = (props) => {
           <SignUp></SignUp>
         </form>
       </div>
-    </Container>
+    </div>
   );
 };
 
