@@ -45,10 +45,10 @@ def posneg(comment, second, inc, url, returnDict):
 
 
 def sentiment7(comment, second, inc, url, returnDict):
-    print('p1-start')
+    print('p2-start')
     predict = numpy.transpose(
         [[s[1:-1] for s in second], predict_7sentiment(comment)])
-    print('p1-postprocessing')
+    print('p2-postprocessing')
     predict_per_unitsecond = {
         'neutral': [],
         'joy': [],
@@ -98,9 +98,9 @@ def sentiment7(comment, second, inc, url, returnDict):
         elif p[1] == 'anger':
             anger += 1
 
-    print('p1-end')
+    print('p2-end')
     returnDict['sentiment7'] = predict_per_unitsecond
-    print('p1-quit')
+    print('p2-quit')
 
 
 @app.route('/predict', methods=['GET'])
