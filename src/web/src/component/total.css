@@ -1,0 +1,14 @@
+.containerUsage {margin-top:30px; margin-top: 50px; align-items: center; display:flex; float:left;
+justify-content: center; text-align: center; width: 40%; position:absolute;}
+
+.containerUsage .Title 
+.containerUsage .comment {display: inline; margin: 3px; overflow:hidden;}
+.containerUsage .comment img {width: 600px; height: 600px;}
+
+.loginContainer {margin-top: 30px; margin-right:30px; display: block; float: right; 
+justify-content: right; align-items: center; position: static;width:40%;}
+.loginContainer .innercontainer .paper {display: inline; margin: 3px; overflow:hidden;}
+
+.loginContainer .innercontainer .Form {display: inline; margin: 3px; overflow:hidden;}
+
+.loginContainer .innercontainer .submit {margin: 10px;}
