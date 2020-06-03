@@ -30,7 +30,7 @@ const Description =()=> {
                     YOBA
                 </Typography>
                 <Typography variant='h2' gutterBottom>
-                    Highlihgt editing assist tool for Creator
+                    Highlight editing assist tool for Creator
                 </Typography>
             </Grid>
         </Grid>
