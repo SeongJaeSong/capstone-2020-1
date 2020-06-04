@@ -200,7 +200,7 @@ ping
 ```
 
 ### Predict
-[GET] /api/predict  
+[GET] /api/predict
 채팅 긍정부정 분류
 
 요청

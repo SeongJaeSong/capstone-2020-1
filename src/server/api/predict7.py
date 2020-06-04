@@ -11,7 +11,6 @@ import sys
 
 sys.path.append('../')
 
-
 app = Blueprint('predict7', __name__, url_prefix='/api')
 
 

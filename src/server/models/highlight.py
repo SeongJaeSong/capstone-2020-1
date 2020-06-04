@@ -27,7 +27,7 @@ class Predict(Base):
     url = Column(String, unique=True, nullable=False)
     posneg_json = Column(JSON, nullable=False)
 
-class Predict7(Base):
+class Predict7(Base): 
     __tablename__ = 'chat_predict7'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
