@@ -2,6 +2,7 @@ import json
 import math
 import multiprocessing
 import sys
+sys.path.append('../')
 import numpy
 from flask import Blueprint, jsonify
 from werkzeug.exceptions import BadRequest
@@ -11,7 +12,7 @@ from download.chatlog import download
 from models.highlight import Predict
 from settings.utils import api
 
-sys.path.append('../')
+
 
 app = Blueprint('predict', __name__, url_prefix='/api')
 @api
@@ -27,7 +28,7 @@ def get_predict(data, db):
     ).first()
 
     if query:
-        return query.posneg_json
+        return query.predict_json
 
     download(isURLValid[0], isURLValid[1])
 
