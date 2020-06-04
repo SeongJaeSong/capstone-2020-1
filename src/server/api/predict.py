@@ -30,7 +30,7 @@ def get_predict(data, db):
     ).first()
 
     if query:
-        return query.predict_json
+        return query.posneg_json
 
     download(isURLValid[0], isURLValid[1])
 
