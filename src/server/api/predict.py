@@ -18,8 +18,6 @@ app = Blueprint('predict', __name__, url_prefix='/api')
 @app.route('/predict', methods=['GET'])
 @api
 def get_predict(data, db):
-    manager = multiprocessing.Manager()
-    returnDict = manager.dict()
     url = data['url']
     isURLValid = split_url(url)
 
@@ -31,7 +29,7 @@ def get_predict(data, db):
     ).first()
 
     if query:
-        return query.predict_json
+        return query.posneg_json
 
     download(isURLValid[0], isURLValid[1])
 
