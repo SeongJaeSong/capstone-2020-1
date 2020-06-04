@@ -26,10 +26,10 @@ const Description =()=> {
     return (
         <Grid container className={classes.root} spacing={3}>
             <Grid xs={12}>
-                <Typography variant='h1' gutterBottom>
+                <Typography variant='h2' gutterBottom>
                     YOBA
                 </Typography>
-                <Typography variant='h2' gutterBottom>
+                <Typography variant='h3' gutterBottom>
                     Highlight editing assist tool for Creator
                 </Typography>
             </Grid>

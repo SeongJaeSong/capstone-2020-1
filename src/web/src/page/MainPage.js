@@ -78,6 +78,7 @@ const MainPage = () => {
       <Grid>
         <Description />
       </Grid>
+
       {login ? (
         <InputUrl
           toggleInput={toggleInput}

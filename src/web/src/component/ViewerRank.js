@@ -174,11 +174,12 @@ const ViewerRank = (props) => {
       <div style = {{height:500}}>
       <MDBContainer>
         {load ? (
-          <div style={{  }}>
+          <div>
             <Pie data={test} options={{ responsive: true }}></Pie>
+            
           </div>
         ) : (
-          <div style = {{}}>
+          <div>
             <CircularProgress color="secondary" />
           </div>
         )}

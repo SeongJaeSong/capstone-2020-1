@@ -77,7 +77,7 @@ function StyledRadio(props) {
 
 const Result = (props) => {
   const [posAndNeg, setPosAndNeg] = useState(false);
-  const [keword, setKeyword] = useState(false);
+  const [keyword, setKeyword] = useState(false);
   const [high, setHigh] = useState(false);
   const [audioNorm, setAudioNrom] = useState(false);
   const [seven, setSeven] = useState(false);
@@ -238,7 +238,7 @@ const Result = (props) => {
           <FormControlLabel
             value="keword"
             control={<StyledRadio />}
-            label="Keword10"
+            label="Keyword10"
           />
           <FormControlLabel
             value="audioNorm"
@@ -267,7 +267,7 @@ const Result = (props) => {
         ) : (
           <></>
         )}
-        {keword ? (
+        {keyword ? (
           <Grid xs={6}>
             <ViewerRank
               platform={props.platform}
