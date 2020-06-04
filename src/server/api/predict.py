@@ -15,6 +15,8 @@ from settings.utils import api
 
 
 app = Blueprint('predict', __name__, url_prefix='/api')
+
+@app.route('/predict', methods=['GET'])
 @api
 def get_predict(data, db):
     url = data['url']
