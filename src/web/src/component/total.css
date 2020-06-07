@@ -12,3 +12,11 @@ justify-content: right; align-items: center; position: static;width:40%;}
 .loginContainer .innercontainer .Form {display: inline; margin: 3px; overflow:hidden;}
 
 .loginContainer .innercontainer .submit {margin: 10px;}
+
+.Navyoba {text-transform: none; color: "black"; margin-left: 40px;}
+.Navsign {text-transform: none; color: black; margin-right: 20px; float:left; 
+	white-space: nowrap;}
+.Navsign_url {text-transform: none; color: black;  margin-right: 20px; 
+	float:left; white-space:nowrap;}
+
+.destitle {font-size: 40px;}
