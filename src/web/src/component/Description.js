@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         // color: "textPrimary",
         justifyContent: 'center',
         textAlign: 'center',
-        height: 700,
+        height: 400,
         width: '100%',
     },
 }));
@@ -29,7 +29,7 @@ const Description =()=> {
                 <Typography variant='h1' gutterBottom>
                     YOBA
                 </Typography>
-                <Typography variant='h2' gutterBottom>
+                <Typography className="destitle" variant='h3' gutterBottom>
                     Highlihgt editing assistant tool for Creator
                 </Typography>
             </Grid>
