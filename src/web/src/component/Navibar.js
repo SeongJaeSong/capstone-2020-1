@@ -27,17 +27,12 @@ const NaviBar = (props) => {
         alignItems="center"
         direction="row"
         justify="center"
-        style={{ paddingTop: 10, paddingBottom: 10 }}
+        style={{ paddingTop: 3, paddingBottom: 3}}
       >
         <Grid xs={1}>
           <Typography
             variant="h6"
-            style={{
-              textTransform: "none",
-              color: "black",
-              marginLeft: 20,
-              marginRight: 20,
-            }}
+            className="Navyoba"
           >
             YOBA
           </Typography>
@@ -45,18 +40,13 @@ const NaviBar = (props) => {
         <Grid xs={2}></Grid>
 
         <Grid xs={6}>
-          <img alt="logo" src={YobaLogo} height="80px" />
+          <img alt="logo" src={YobaLogo} height="70px" />
         </Grid>
 
         <Grid xs = {2}>
           <Typography
             variant="h6"
-            style={{
-              textTransform: "none",
-              color: "black",
-              marginLeft: 20,
-              marginRight: 30,
-            }}
+            className="Navsign_url"
             onClick={onClick}
           >
             {props.login ? "Welcome! " + props.name : ""}
@@ -65,12 +55,7 @@ const NaviBar = (props) => {
         <Grid xs = {1}>
           <Typography
             variant="h6"
-            style={{
-              textTransform: "none",
-              color: "black",
-              marginLeft: 20,
-              marginRight: 30,
-            }}
+            className="Navsign_main"
             onClick={logout}
           >
             {props.login ? "Sign out" : "Sign in"}
